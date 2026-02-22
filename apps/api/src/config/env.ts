@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 const baseEnvSchema = z.object({
-  POSTGRES_URL: z.string().url().optional(),
-  POSTGRES_PRISMA_URL: z.string().url().optional(),
-  POSTGRES_URL_NON_POOLING: z.string().url().optional(),
-  DATABASE_URL: z.string().url().optional(),
-  SUPABASE_URL: z.string().url().optional(),
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
+  POSTGRES_URL: z.string().min(1).optional(),
+  POSTGRES_PRISMA_URL: z.string().min(1).optional(),
+  POSTGRES_URL_NON_POOLING: z.string().min(1).optional(),
+  DATABASE_URL: z.string().min(1).optional(),
+  SUPABASE_URL: z.string().min(1).optional(),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().min(1).optional(),
   PORT: z.coerce.number().default(4000),
   HOST: z.string().default("0.0.0.0"),
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
