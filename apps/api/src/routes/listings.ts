@@ -3,7 +3,6 @@ import { z } from "zod";
 import { ListingService } from "../services/listing-service.js";
 import { ServiceError } from "../services/order-service.js";
 import type { AuthUser } from "../middleware/auth.js";
-
 const createListingSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().max(2000).optional(),

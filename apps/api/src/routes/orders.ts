@@ -50,7 +50,11 @@ export async function orderRoutes(
 
     try {
       const user = request.user as AuthUser;
-      const order = await orderService.reserveListing(user.sub, user.email, parsed.data);
+      const { listing_id, agreed_price } = parsed.data;
+      const order = await orderService.reserveListing(user.sub, user.email, {
+        listing_id: listing_id as string,
+        agreed_price: agreed_price as number,
+      });
       return reply.code(201).send(order);
     } catch (err) {
       if (err instanceof ServiceError) {
@@ -72,10 +76,11 @@ export async function orderRoutes(
 
     try {
       const user = request.user as AuthUser;
+      const { escrow_reference } = parsed.data;
       const order = await orderService.confirmEscrow(
         request.params.id,
         user.sub,
-        parsed.data.escrow_reference,
+        escrow_reference as string,
       );
       return order;
     } catch (err) {

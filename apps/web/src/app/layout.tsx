@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { AuthProvider } from "@/lib/auth-context";
+import { LocaleProvider } from "@/lib/i18n/locale-context";
 import { Navbar } from "@/components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Donasaurs - C2C Marketplace",
-  description: "Buy and sell with confidence on Donasaurs",
+  title: "Donasaurio - La forma en que todos podemos ayudar",
+  description:
+    "Regala lo que ya no usas y convierte objetos en donaciones reales.",
 };
 
 export default function RootLayout({
@@ -14,14 +16,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body>
-        <AuthProvider>
-          <Navbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
-          </main>
-        </AuthProvider>
+        <LocaleProvider>
+          <AuthProvider>
+            <Navbar />
+            <main>{children}</main>
+          </AuthProvider>
+        </LocaleProvider>
       </body>
     </html>
   );
