@@ -33,7 +33,7 @@ export function ListingCard({ listing }: { listing: ListingResponse }) {
           </p>
         )}
         <div className="flex justify-between items-center">
-          <span className="text-xl font-bold text-primary-700">
+          <span className="text-xl font-bold text-emerald-700">
             ${listing.price_min.toFixed(2)}
           </span>
           <span className="text-xs text-gray-400">
