@@ -22,6 +22,20 @@ C2C marketplace MVP with escrow-based order flow.
 
 ## Setup
 
+
+### Windows (PowerShell) quick setup
+
+If `pnpm` is not recognized in PowerShell, enable Corepack and activate pnpm:
+
+```powershell
+node -v
+corepack enable
+corepack prepare pnpm@9 --activate
+pnpm -v
+```
+
+If `corepack` is not found, reinstall Node.js 20+ from the official installer, then restart PowerShell and run the commands above.
+
 ```bash
 # Install dependencies
 pnpm install
@@ -51,10 +65,20 @@ cp apps/web/.env.example apps/web/.env.local
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key |
 | `NEXT_PUBLIC_API_URL` | Backend API URL (default: http://localhost:4000) |
 
+
+### Auth redirect troubleshooting (Supabase)
+
+If email confirmation opens a wrong domain (for example an API URL), configure Supabase Auth URLs:
+
+- **Authentication → URL Configuration → Site URL**: set to your web app URL (`http://localhost:3000` locally).
+- **Redirect URLs**: add both local and production web URLs (for example `http://localhost:3000/auth`).
+
+The web app also sends `emailRedirectTo` during sign-up so confirmation links return to `/auth` on the current web origin.
+
 ## Run
 
 ```bash
-# Start backend (port 4000)
+# Build shared domain package and start backend (auto-loads apps/api/.env, port 4000)
 pnpm dev:api
 
 # Start frontend (port 3000)
