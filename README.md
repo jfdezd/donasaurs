@@ -53,7 +53,8 @@ cp apps/web/.env.example apps/web/.env.local
 |---|---|
 | `POSTGRES_URL` | PostgreSQL connection string (Supabase / Vercel Postgres var) |
 | `DATABASE_URL` | Optional legacy fallback when `POSTGRES_URL` is not set |
-| `SUPABASE_URL` | Supabase project URL (used for JWKS JWT validation) |
+| `SUPABASE_URL` | Supabase project URL for JWT JWKS validation (preferred) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Backend fallback when `SUPABASE_URL` is not set (e.g., Vercel Supabase integration) |
 | `PORT` | Server port (default: 4000) |
 | `HOST` | Server host (default: 0.0.0.0) |
 | `CORS_ORIGIN` | Allowed CORS origin (default: http://localhost:3000) |

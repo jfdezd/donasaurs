@@ -3,7 +3,8 @@ import { z } from "zod";
 const baseEnvSchema = z.object({
   POSTGRES_URL: z.string().url().optional(),
   DATABASE_URL: z.string().url().optional(),
-  SUPABASE_URL: z.string().url(),
+  SUPABASE_URL: z.string().url().optional(),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   PORT: z.coerce.number().default(4000),
   HOST: z.string().default("0.0.0.0"),
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
@@ -25,17 +26,29 @@ export function loadEnv(): Env {
   }
 
   const databaseUrl = result.data.POSTGRES_URL ?? result.data.DATABASE_URL;
-  if (!databaseUrl) {
+  const supabaseUrl = result.data.SUPABASE_URL ?? result.data.NEXT_PUBLIC_SUPABASE_URL;
+
+  if (!databaseUrl || !supabaseUrl) {
     console.error("Invalid environment variables:", {
-      POSTGRES_URL: ["Required when DATABASE_URL is not set"],
-      DATABASE_URL: ["Required when POSTGRES_URL is not set"],
+      ...(!databaseUrl
+        ? {
+            POSTGRES_URL: ["Required when DATABASE_URL is not set"],
+            DATABASE_URL: ["Required when POSTGRES_URL is not set"],
+          }
+        : {}),
+      ...(!supabaseUrl
+        ? {
+            SUPABASE_URL: ["Required when NEXT_PUBLIC_SUPABASE_URL is not set"],
+            NEXT_PUBLIC_SUPABASE_URL: ["Required when SUPABASE_URL is not set"],
+          }
+        : {}),
     });
     process.exit(1);
   }
 
   return {
     databaseUrl,
-    supabaseUrl: result.data.SUPABASE_URL,
+    supabaseUrl,
     port: result.data.PORT,
     host: result.data.HOST,
     corsOrigin: result.data.CORS_ORIGIN,
