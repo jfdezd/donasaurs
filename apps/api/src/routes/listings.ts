@@ -3,6 +3,7 @@ import { z } from "zod";
 import { ListingService } from "../services/listing-service.js";
 import { ServiceError } from "../services/order-service.js";
 import type { AuthUser } from "../middleware/auth.js";
+import type { CreateListingInput } from "@donasaurs/domain";
 
 const createListingSchema = z.object({
   title: z.string().min(1).max(200),
@@ -43,7 +44,8 @@ export async function listingRoutes(
 
     try {
       const user = request.user as AuthUser;
-      const listing = await listingService.createListing(user.sub, user.email, parsed.data);
+      const listingInput = parsed.data as CreateListingInput;
+      const listing = await listingService.createListing(user.sub, user.email, listingInput);
       return reply.code(201).send(listing);
     } catch (err) {
       if (err instanceof ServiceError) {
