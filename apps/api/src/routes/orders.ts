@@ -18,15 +18,14 @@ export async function orderRoutes(
 ): Promise<void> {
   const { orderService, authenticate } = opts;
 
-  // All order routes require authentication
-  app.addHook("preHandler", authenticate);
+  const authOnly = { preHandler: [authenticate] };
 
-  app.get("/orders/mine", async (request) => {
+  app.get("/orders/mine", authOnly, async (request) => {
     const user = request.user as AuthUser;
     return orderService.getOrdersByUser(user.sub);
   });
 
-  app.get<{ Params: { id: string } }>("/orders/:id", async (request, reply) => {
+  app.get<{ Params: { id: string } }>("/orders/:id", authOnly, async (request, reply) => {
     const user = request.user as AuthUser;
     const order = await orderService.getOrderById(request.params.id);
     if (!order) {
@@ -39,7 +38,7 @@ export async function orderRoutes(
     return order;
   });
 
-  app.post("/orders/reserve", async (request, reply) => {
+  app.post("/orders/reserve", authOnly, async (request, reply) => {
     const parsed = reserveSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.code(400).send({
@@ -61,7 +60,7 @@ export async function orderRoutes(
     }
   });
 
-  app.post<{ Params: { id: string } }>("/orders/:id/confirm-escrow", async (request, reply) => {
+  app.post<{ Params: { id: string } }>("/orders/:id/confirm-escrow", authOnly, async (request, reply) => {
     const parsed = confirmEscrowSchema.safeParse(request.body);
     if (!parsed.success) {
       return reply.code(400).send({
@@ -87,7 +86,7 @@ export async function orderRoutes(
     }
   });
 
-  app.post<{ Params: { id: string } }>("/orders/:id/ship", async (request, reply) => {
+  app.post<{ Params: { id: string } }>("/orders/:id/ship", authOnly, async (request, reply) => {
     try {
       const user = request.user as AuthUser;
       const order = await orderService.shipOrder(request.params.id, user.sub);
@@ -100,7 +99,7 @@ export async function orderRoutes(
     }
   });
 
-  app.post<{ Params: { id: string } }>("/orders/:id/complete", async (request, reply) => {
+  app.post<{ Params: { id: string } }>("/orders/:id/complete", authOnly, async (request, reply) => {
     try {
       const user = request.user as AuthUser;
       const order = await orderService.completeOrder(request.params.id, user.sub);
