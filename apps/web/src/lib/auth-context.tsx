@@ -52,9 +52,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string) => {
-    const emailRedirectTo = typeof window !== "undefined"
-      ? `${window.location.origin}/auth`
-      : undefined;
+    const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    const runtimeOrigin = typeof window !== "undefined" ? window.location.origin : undefined;
+    const baseUrl = configuredSiteUrl ?? runtimeOrigin;
+    const emailRedirectTo = baseUrl ? `${baseUrl.replace(/\/$/, "")}/auth` : undefined;
 
     const { error } = await supabase.auth.signUp({
       email,

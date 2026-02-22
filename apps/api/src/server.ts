@@ -12,12 +12,12 @@ import { ServiceError } from "./services/order-service.js";
 
 async function main(): Promise<void> {
   const env = loadEnv();
-  const pool = getPool(env.DATABASE_URL);
+  const pool = getPool(env.databaseUrl);
 
   const app = Fastify({ logger: true });
 
   await app.register(cors, {
-    origin: env.CORS_ORIGIN.split(","),
+    origin: env.corsOrigin.split(","),
     credentials: true,
   });
 
@@ -38,7 +38,7 @@ async function main(): Promise<void> {
     });
   });
 
-  const authenticate = buildAuthHook(env.SUPABASE_URL);
+  const authenticate = buildAuthHook(env.supabaseUrl);
   const listingService = new ListingService(pool);
   const orderService = new OrderService(pool);
 
@@ -57,8 +57,8 @@ async function main(): Promise<void> {
   process.on("SIGINT", shutdown);
   process.on("SIGTERM", shutdown);
 
-  await app.listen({ port: env.PORT, host: env.HOST });
-  app.log.info(`Server listening on ${env.HOST}:${env.PORT}`);
+  await app.listen({ port: env.port, host: env.host });
+  app.log.info(`Server listening on ${env.host}:${env.port}`);
 }
 
 main().catch((err) => {
