@@ -38,7 +38,7 @@ async function main(): Promise<void> {
     });
   });
 
-  const authenticate = buildAuthHook(env.SUPABASE_JWT_SECRET);
+  const authenticate = buildAuthHook(env.SUPABASE_URL);
   const listingService = new ListingService(pool);
   const orderService = new OrderService(pool);
 
