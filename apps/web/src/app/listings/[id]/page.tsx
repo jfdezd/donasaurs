@@ -76,7 +76,7 @@ export default function ListingDetailPage() {
   const canReserve = user && !isOwner && listing.status === "ACTIVE";
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="bg-white rounded-xl border border-gray-200 p-8">
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-2xl font-bold text-gray-900">{listing.title}</h1>
@@ -97,7 +97,7 @@ export default function ListingDetailPage() {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-gray-500">Minimum Price</p>
-              <p className="text-2xl font-bold text-primary-700">
+              <p className="text-2xl font-bold text-emerald-700">
                 ${Number(listing.price_min).toFixed(2)}
               </p>
             </div>
@@ -135,13 +135,13 @@ export default function ListingDetailPage() {
                 step="0.01"
                 value={agreedPrice}
                 onChange={(e) => setAgreedPrice(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
             <button
               onClick={handleReserve}
               disabled={reserving}
-              className="w-full py-3 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 text-lg"
+              className="w-full py-3 px-4 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 disabled:opacity-50 text-lg"
             >
               {reserving ? "Reserving..." : "Reserve This Item"}
             </button>
@@ -150,7 +150,7 @@ export default function ListingDetailPage() {
 
         {!user && listing.status === "ACTIVE" && (
           <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-600 text-center">
-            <a href="/auth" className="text-primary-600 hover:underline font-medium">
+            <a href="/auth" className="text-emerald-600 hover:underline font-medium">
               Sign in
             </a>{" "}
             to reserve this listing.
