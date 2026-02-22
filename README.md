@@ -38,8 +38,7 @@ cp apps/web/.env.example apps/web/.env.local
 | Variable | Description |
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection string (Supabase) |
-| `SUPABASE_URL` | Supabase project URL |
-| `SUPABASE_JWT_SECRET` | JWT secret from Supabase Dashboard → Settings → API |
+| `SUPABASE_URL` | Supabase project URL (used for JWKS JWT validation) |
 | `PORT` | Server port (default: 4000) |
 | `HOST` | Server host (default: 0.0.0.0) |
 | `CORS_ORIGIN` | Allowed CORS origin (default: http://localhost:3000) |
@@ -98,4 +97,4 @@ Payments are **not** processed inside the app.
 ```bash
 docker build -f apps/api/Dockerfile -t donasaurs-api .
 docker run -p 4000:4000 --env-file apps/api/.env donasaurs-api
-```  
+```    
