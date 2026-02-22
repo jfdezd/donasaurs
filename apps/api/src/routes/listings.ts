@@ -44,7 +44,8 @@ export async function listingRoutes(
 
     try {
       const user = request.user as AuthUser;
-      const listing = await listingService.createListing(user.sub, user.email, parsed.data);
+      const listingInput = parsed.data as CreateListingInput;
+      const listing = await listingService.createListing(user.sub, user.email, listingInput);
       return reply.code(201).send(listing);
     } catch (err) {
       if (err instanceof ServiceError) {
