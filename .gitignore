@@ -8,3 +8,5 @@ dist/
 .DS_Store
 coverage/
 *.tsbuildinfo
+supabase/
+00_donasaurs.code-workspace
