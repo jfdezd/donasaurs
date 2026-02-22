@@ -35,7 +35,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-16">
+    <div className="max-w-md mx-auto px-4 py-16">
       <h1 className="text-2xl font-bold text-center mb-8">
         {isSignUp ? "Create Account" : "Sign In"}
       </h1>
@@ -57,7 +57,7 @@ export default function AuthPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           />
         </div>
 
@@ -72,14 +72,14 @@ export default function AuthPage() {
             minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50"
+          className="w-full py-2 px-4 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 disabled:opacity-50"
         >
           {loading ? "Loading..." : isSignUp ? "Create Account" : "Sign In"}
         </button>
@@ -89,7 +89,7 @@ export default function AuthPage() {
           <button
             type="button"
             onClick={() => setIsSignUp(!isSignUp)}
-            className="text-primary-600 hover:underline font-medium"
+            className="text-emerald-600 hover:underline font-medium"
           >
             {isSignUp ? "Sign In" : "Sign Up"}
           </button>

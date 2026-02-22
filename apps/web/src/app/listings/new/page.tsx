@@ -48,7 +48,7 @@ export default function NewListingPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-lg mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-8">Create New Listing</h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -69,8 +69,8 @@ export default function NewListingPage() {
             maxLength={200}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            placeholder="What are you selling?"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            placeholder="What are you listing?"
           />
         </div>
 
@@ -84,7 +84,7 @@ export default function NewListingPage() {
             rows={4}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="Describe your item..."
           />
         </div>
@@ -101,7 +101,7 @@ export default function NewListingPage() {
             step="0.01"
             value={priceMin}
             onChange={(e) => setPriceMin(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="0.00"
           />
         </div>
@@ -109,7 +109,7 @@ export default function NewListingPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50"
+          className="w-full py-2 px-4 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 disabled:opacity-50"
         >
           {loading ? "Creating..." : "Create Listing"}
         </button>
