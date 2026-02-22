@@ -1,10 +1,12 @@
 import { z } from "zod";
 
 const baseEnvSchema = z.object({
-  POSTGRES_URL: z.string().url().optional(),
-  DATABASE_URL: z.string().url().optional(),
-  SUPABASE_URL: z.string().url().optional(),
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
+  POSTGRES_URL: z.string().optional(),
+  POSTGRES_PRISMA_URL: z.string().optional(),
+  POSTGRES_URL_NON_POOLING: z.string().optional(),
+  DATABASE_URL: z.string().optional(),
+  SUPABASE_URL: z.string().optional(),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().optional(),
   PORT: z.coerce.number().default(4000),
   HOST: z.string().default("0.0.0.0"),
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
@@ -25,8 +27,18 @@ export function loadEnv(): Env {
     process.exit(1);
   }
 
-  const databaseUrl = result.data.POSTGRES_URL ?? result.data.DATABASE_URL;
+  const databaseUrl =
+    result.data.POSTGRES_URL ??
+    result.data.POSTGRES_PRISMA_URL ??
+    result.data.POSTGRES_URL_NON_POOLING ??
+    result.data.DATABASE_URL;
   const supabaseUrl = result.data.SUPABASE_URL ?? result.data.NEXT_PUBLIC_SUPABASE_URL;
+
+  if (!databaseUrl || !supabaseUrl) {
+    console.error("Available env var keys:", Object.keys(process.env).filter((k) =>
+      /postgres|database|supabase/i.test(k)
+    ));
+  }
 
   if (!databaseUrl || !supabaseUrl) {
     console.error("Invalid environment variables:", {
