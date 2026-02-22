@@ -76,20 +76,20 @@ export const translations: Record<Locale, Translations> = {
       ctaSecondary: "Explora objetos",
     },
     howItWorks: {
-      title: "Asi de facil",
+      title: "Así de fácil",
       subtitle: "Tres pasos. Cero complicaciones.",
       steps: [
         {
           number: "1",
           title: "Publica algo que ya no uses",
           description:
-            "Sube una foto, ponle titulo y listo. Tu objeto empieza su nueva vida.",
+            "Sube una foto, ponle título y listo. Tu objeto empieza su nueva vida.",
         },
         {
           number: "2",
           title: "Alguien dona a una ONG",
           description:
-            "Otra persona elige tu objeto y hace una donacion directa a una organizacion social.",
+            "Otra persona elige tu objeto y hace una donación directa a una organización social.",
         },
         {
           number: "3",
@@ -98,40 +98,40 @@ export const translations: Record<Locale, Translations> = {
             "Coordinas la entrega, y tu objeto se convierte en ayuda real.",
         },
       ],
-      note: "La donacion va directamente a la ONG. Donasaurio no toca el dinero.",
+      note: "La donación va directamente a la ONG. Donasaurio no toca el dinero.",
     },
     whyDifferent: {
-      title: "Por que Donasaurio es diferente",
+      title: "Por qué Donasaurio es diferente",
       points: [
         {
           title: "No todo tiene que venderse",
           description:
-            "Hay cosas que valen mas cuando se dan. Aqui, tus objetos tienen un proposito mas grande.",
+            "Hay cosas que valen más cuando se dan. Aquí, tus objetos tienen un propósito más grande.",
         },
         {
           title: "No todo tiene que tirarse",
           description:
-            "Antes de descartar, piensa en quien lo necesita. Dale una segunda vida a lo que ya no usas.",
+            "Antes de descartar, piensa en quién lo necesita. Dale una segunda vida a lo que ya no usas.",
         },
         {
           title: "Ayuda sin gastar dinero",
           description:
-            "No necesitas abrir la cartera. Solo hace falta abrir un cajon.",
+            "No necesitas abrir la cartera. Solo hace falta abrir un cajón.",
         },
         {
           title: "Segunda vida, impacto real",
           description:
-            "Cada objeto que regalas se convierte en una donacion concreta para quienes mas lo necesitan.",
+            "Cada objeto que regalas se convierte en una donación concreta para quienes más lo necesitan.",
         },
       ],
     },
     community: {
       title: "La comunidad Donasaurio",
       subtitle:
-        "Personas que transforman lo que ya no usan en impacto real. Sin drama, sin culpa. Solo accion.",
+        "Personas que transforman lo que ya no usan en impacto real. Sin drama, sin culpa. Solo acción.",
       traits: [
-        "Gente practica que quiere ayudar de forma inteligente",
-        "Una comunidad moderna con proposito claro",
+        "Gente práctica que quiere ayudar de forma inteligente",
+        "Una comunidad moderna con propósito claro",
         "Personas que entienden que dar no tiene que ser complicado",
         "Quienes saben que un pequeño gesto puede cambiar mucho",
       ],
