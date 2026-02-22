@@ -43,7 +43,9 @@ export async function listingRoutes(
     }
 
     try {
-      if (typeof parsed.data.title !== "string" || typeof parsed.data.price_min !== "number") {
+      const { title, description, price_min } = parsed.data;
+
+      if (typeof title !== "string" || typeof price_min !== "number") {
         return reply.code(400).send({
           statusCode: 400,
           error: "Bad Request",
@@ -53,9 +55,9 @@ export async function listingRoutes(
 
       const user = request.user as AuthUser;
       const listing = await listingService.createListing(user.sub, user.email, {
-        title: parsed.data.title,
-        description: parsed.data.description,
-        price_min: parsed.data.price_min,
+        title,
+        description,
+        price_min,
       });
       return reply.code(201).send(listing);
     } catch (err) {
