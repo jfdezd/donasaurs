@@ -8,7 +8,7 @@ import type {
   ApiError,
 } from "@donasaurs/domain";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
 
 async function getAuthHeaders(): Promise<Record<string, string>> {
   const {

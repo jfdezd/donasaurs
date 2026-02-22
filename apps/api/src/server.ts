@@ -17,7 +17,24 @@ async function main(): Promise<void> {
   const app = Fastify({ logger: true });
 
   await app.register(cors, {
-    origin: env.corsOrigin.split(","),
+    origin: (origin, cb) => {
+      const allowed = [
+        "http://localhost:3000",
+        "https://donasaurs-web.vercel.app",
+      ];
+      // Also allow any origins from CORS_ORIGIN env var
+      const extraOrigins = env.corsOrigin
+        .split(",")
+        .map((o) => o.trim())
+        .filter(Boolean);
+      const allAllowed = [...new Set([...allowed, ...extraOrigins])];
+
+      if (!origin || allAllowed.includes(origin)) {
+        cb(null, true);
+        return;
+      }
+      cb(new Error("Not allowed by CORS"), false);
+    },
     credentials: true,
   });
 
