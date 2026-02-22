@@ -42,8 +42,22 @@ export async function listingRoutes(
     }
 
     try {
+      const { title, description, price_min } = parsed.data;
+
+      if (typeof title !== "string" || typeof price_min !== "number") {
+        return reply.code(400).send({
+          statusCode: 400,
+          error: "Bad Request",
+          message: "Invalid listing payload",
+        });
+      }
+
       const user = request.user as AuthUser;
-      const listing = await listingService.createListing(user.sub, user.email, parsed.data);
+      const listing = await listingService.createListing(user.sub, user.email, {
+        title,
+        description,
+        price_min,
+      });
       return reply.code(201).send(listing);
     } catch (err) {
       if (err instanceof ServiceError) {

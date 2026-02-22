@@ -2,7 +2,7 @@
   "name": "donasaurs",
   "private": true,
   "scripts": {
-    "dev:api": "pnpm --filter @donasaurs/api dev",
+    "dev:api": "pnpm --filter @donasaurs/domain build && pnpm --filter @donasaurs/api dev",
     "dev:web": "pnpm --filter @donasaurs/web dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
