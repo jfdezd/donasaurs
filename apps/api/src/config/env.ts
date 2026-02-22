@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 const baseEnvSchema = z.object({
-  POSTGRES_URL: z.string().optional(),
-  POSTGRES_PRISMA_URL: z.string().optional(),
-  POSTGRES_URL_NON_POOLING: z.string().optional(),
-  DATABASE_URL: z.string().optional(),
-  SUPABASE_URL: z.string().optional(),
-  NEXT_PUBLIC_SUPABASE_URL: z.string().optional(),
+  POSTGRES_URL: z.string().url().optional(),
+  POSTGRES_PRISMA_URL: z.string().url().optional(),
+  POSTGRES_URL_NON_POOLING: z.string().url().optional(),
+  DATABASE_URL: z.string().url().optional(),
+  SUPABASE_URL: z.string().url().optional(),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   PORT: z.coerce.number().default(4000),
   HOST: z.string().default("0.0.0.0"),
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
@@ -18,6 +18,17 @@ export interface Env {
   port: number;
   host: string;
   corsOrigin: string;
+}
+
+function deriveSupabaseUrlFromDatabaseUrl(databaseUrl: string): string | undefined {
+  try {
+    const dbHost = new URL(databaseUrl).hostname;
+    const match = dbHost.match(/^db\.([a-z0-9-]+)\.supabase\.co$/i);
+    if (!match) return undefined;
+    return `https://${match[1]}.supabase.co`;
+  } catch {
+    return undefined;
+  }
 }
 
 export function loadEnv(): Env {
@@ -32,26 +43,24 @@ export function loadEnv(): Env {
     result.data.POSTGRES_PRISMA_URL ??
     result.data.POSTGRES_URL_NON_POOLING ??
     result.data.DATABASE_URL;
-  const supabaseUrl = result.data.SUPABASE_URL ?? result.data.NEXT_PUBLIC_SUPABASE_URL;
 
-  if (!databaseUrl || !supabaseUrl) {
-    console.error("Available env var keys:", Object.keys(process.env).filter((k) =>
-      /postgres|database|supabase/i.test(k)
-    ));
-  }
+  const explicitSupabaseUrl = result.data.SUPABASE_URL ?? result.data.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseUrl = explicitSupabaseUrl ?? (databaseUrl ? deriveSupabaseUrlFromDatabaseUrl(databaseUrl) : undefined);
 
   if (!databaseUrl || !supabaseUrl) {
     console.error("Invalid environment variables:", {
       ...(!databaseUrl
         ? {
-            POSTGRES_URL: ["Required when DATABASE_URL is not set"],
-            DATABASE_URL: ["Required when POSTGRES_URL is not set"],
+            POSTGRES_URL: ["Required when POSTGRES_PRISMA_URL, POSTGRES_URL_NON_POOLING, and DATABASE_URL are not set"],
+            POSTGRES_PRISMA_URL: ["Optional alternative database URL"],
+            POSTGRES_URL_NON_POOLING: ["Optional alternative database URL"],
+            DATABASE_URL: ["Required when no POSTGRES_* URL is set"],
           }
         : {}),
       ...(!supabaseUrl
         ? {
-            SUPABASE_URL: ["Required when NEXT_PUBLIC_SUPABASE_URL is not set"],
-            NEXT_PUBLIC_SUPABASE_URL: ["Required when SUPABASE_URL is not set"],
+            SUPABASE_URL: ["Required when NEXT_PUBLIC_SUPABASE_URL is not set and cannot be derived from database host"],
+            NEXT_PUBLIC_SUPABASE_URL: ["Required when SUPABASE_URL is not set and cannot be derived from database host"],
           }
         : {}),
     });

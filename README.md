@@ -51,10 +51,12 @@ cp apps/web/.env.example apps/web/.env.local
 
 | Variable | Description |
 |---|---|
-| `POSTGRES_URL` | PostgreSQL connection string (Supabase / Vercel Postgres var) |
-| `DATABASE_URL` | Optional legacy fallback when `POSTGRES_URL` is not set |
+| `POSTGRES_URL` | PostgreSQL connection string (preferred) |
+| `POSTGRES_PRISMA_URL` | Optional Vercel-injected DB URL fallback |
+| `POSTGRES_URL_NON_POOLING` | Optional Vercel-injected DB URL fallback |
+| `DATABASE_URL` | Optional legacy fallback when no `POSTGRES_*` URL is set |
 | `SUPABASE_URL` | Supabase project URL for JWT JWKS validation (preferred) |
-| `NEXT_PUBLIC_SUPABASE_URL` | Backend fallback when `SUPABASE_URL` is not set (e.g., Vercel Supabase integration) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Backend fallback when `SUPABASE_URL` is not set |
 | `PORT` | Server port (default: 4000) |
 | `HOST` | Server host (default: 0.0.0.0) |
 | `CORS_ORIGIN` | Allowed CORS origin (default: http://localhost:3000) |
@@ -79,6 +81,8 @@ If email confirmation opens a wrong domain (for example an API URL), configure S
 - **Redirect URLs**: add both local and production web URLs (for example `http://localhost:3000/auth`).
 
 The web app also sends `emailRedirectTo` during sign-up. It uses `NEXT_PUBLIC_SITE_URL` when provided, otherwise it falls back to the current browser origin, and appends `/auth`.
+
+For the API, if both `SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_URL` are missing, it will attempt to derive the Supabase project URL from a `db.<project-ref>.supabase.co` database host.
 
 ## Run
 
