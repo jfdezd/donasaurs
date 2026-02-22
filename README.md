@@ -54,7 +54,7 @@ cp apps/web/.env.example apps/web/.env.local
 ## Run
 
 ```bash
-# Build shared domain package then start backend (port 4000)
+# Build shared domain package and start backend (auto-loads apps/api/.env, port 4000)
 pnpm dev:api
 
 # Start frontend (port 3000)
