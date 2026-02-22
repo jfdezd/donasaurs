@@ -79,6 +79,16 @@ If email confirmation opens a wrong domain (for example an API URL), configure S
 
 The web app also sends `emailRedirectTo` during sign-up. It uses `NEXT_PUBLIC_SITE_URL` when provided, otherwise it falls back to the current browser origin, and appends `/auth`.
 
+
+### Auth redirect troubleshooting (Supabase)
+
+If email confirmation opens a wrong domain (for example an API URL), configure Supabase Auth URLs:
+
+- **Authentication → URL Configuration → Site URL**: set to your web app URL (`http://localhost:3000` locally).
+- **Redirect URLs**: add both local and production web URLs (for example `http://localhost:3000/auth`).
+
+The web app also sends `emailRedirectTo` during sign-up so confirmation links return to `/auth` on the current web origin.
+
 ## Run
 
 ```bash
