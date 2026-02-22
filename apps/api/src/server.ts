@@ -18,10 +18,17 @@ async function main(): Promise<void> {
 
   await app.register(cors, {
     origin: (origin, cb) => {
+      // No origin (e.g. server-to-server, curl) — allow
+      if (!origin) {
+        cb(null, true);
+        return;
+      }
+
       const allowed = [
         "http://localhost:3000",
         "https://donasaurs-web.vercel.app",
       ];
+
       // Also allow any origins from CORS_ORIGIN env var
       const extraOrigins = env.corsOrigin
         .split(",")
@@ -29,10 +36,19 @@ async function main(): Promise<void> {
         .filter(Boolean);
       const allAllowed = [...new Set([...allowed, ...extraOrigins])];
 
-      if (!origin || allAllowed.includes(origin)) {
+      // Exact match
+      if (allAllowed.includes(origin)) {
         cb(null, true);
         return;
       }
+
+      // Allow any Vercel preview deployment for donasaurs-web
+      if (/^https:\/\/donasaurs-web[a-z0-9-]*\.vercel\.app$/.test(origin)) {
+        cb(null, true);
+        return;
+      }
+
+      app.log.warn(`CORS rejected origin: ${origin}`);
       cb(new Error("Not allowed by CORS"), false);
     },
     credentials: true,
