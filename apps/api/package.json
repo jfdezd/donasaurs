@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "dev": "node --env-file-if-exists=.env --import tsx --watch src/server.ts",
+    "build": "pnpm --dir ../.. --filter @donasaurs/domain build && tsc",
     "start": "node dist/server.js",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit"
