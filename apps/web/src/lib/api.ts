@@ -33,16 +33,42 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+
+function toNumber(value: unknown): number {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    if (!Number.isNaN(parsed)) return parsed;
+  }
+  return 0;
+}
+
+function normalizeListing(listing: ListingResponse): ListingResponse {
+  return {
+    ...listing,
+    price_min: toNumber((listing as ListingResponse & { price_min: unknown }).price_min),
+  };
+}
+
+function normalizeOrder(order: OrderResponse): OrderResponse {
+  return {
+    ...order,
+    agreed_price: toNumber((order as OrderResponse & { agreed_price: unknown }).agreed_price),
+  };
+}
+
 /* ── Listings ── */
 
 export async function fetchListings(): Promise<ListingResponse[]> {
   const res = await fetch(`${API_URL}/listings`);
-  return handleResponse<ListingResponse[]>(res);
+  const data = await handleResponse<ListingResponse[]>(res);
+  return data.map(normalizeListing);
 }
 
 export async function fetchListing(id: string): Promise<ListingResponse> {
   const res = await fetch(`${API_URL}/listings/${id}`);
-  return handleResponse<ListingResponse>(res);
+  const data = await handleResponse<ListingResponse>(res);
+  return normalizeListing(data);
 }
 
 export async function createListing(
@@ -54,7 +80,8 @@ export async function createListing(
     headers,
     body: JSON.stringify(input),
   });
-  return handleResponse<ListingResponse>(res);
+  const data = await handleResponse<ListingResponse>(res);
+  return normalizeListing(data);
 }
 
 /* ── Orders ── */
@@ -68,7 +95,8 @@ export async function reserveListing(
     headers,
     body: JSON.stringify(input),
   });
-  return handleResponse<OrderResponse>(res);
+  const data = await handleResponse<OrderResponse>(res);
+  return normalizeOrder(data);
 }
 
 export async function confirmEscrow(
@@ -81,7 +109,8 @@ export async function confirmEscrow(
     headers,
     body: JSON.stringify(input),
   });
-  return handleResponse<OrderResponse>(res);
+  const data = await handleResponse<OrderResponse>(res);
+  return normalizeOrder(data);
 }
 
 export async function shipOrder(orderId: string): Promise<OrderResponse> {
@@ -90,7 +119,8 @@ export async function shipOrder(orderId: string): Promise<OrderResponse> {
     method: "POST",
     headers,
   });
-  return handleResponse<OrderResponse>(res);
+  const data = await handleResponse<OrderResponse>(res);
+  return normalizeOrder(data);
 }
 
 export async function completeOrder(orderId: string): Promise<OrderResponse> {
@@ -99,17 +129,20 @@ export async function completeOrder(orderId: string): Promise<OrderResponse> {
     method: "POST",
     headers,
   });
-  return handleResponse<OrderResponse>(res);
+  const data = await handleResponse<OrderResponse>(res);
+  return normalizeOrder(data);
 }
 
 export async function fetchMyOrders(): Promise<OrderResponse[]> {
   const headers = await getAuthHeaders();
   const res = await fetch(`${API_URL}/orders/mine`, { headers });
-  return handleResponse<OrderResponse[]>(res);
+  const data = await handleResponse<OrderResponse[]>(res);
+  return data.map(normalizeOrder);
 }
 
 export async function fetchOrder(id: string): Promise<OrderResponse> {
   const headers = await getAuthHeaders();
   const res = await fetch(`${API_URL}/orders/${id}`, { headers });
-  return handleResponse<OrderResponse>(res);
+  const data = await handleResponse<OrderResponse>(res);
+  return normalizeOrder(data);
 }
