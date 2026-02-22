@@ -27,6 +27,9 @@ async function main(): Promise<void> {
       const allowed = [
         "http://localhost:3000",
         "https://donasaurs-web.vercel.app",
+        "https://dinosaurs.com",
+        "https://www.dinosaurs.com",
+        "https://api.dinosaurs.com",
       ];
 
       // Also allow any origins from CORS_ORIGIN env var
