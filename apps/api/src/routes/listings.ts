@@ -3,8 +3,9 @@ import { z } from "zod";
 import { ListingService } from "../services/listing-service.js";
 import { ServiceError } from "../services/order-service.js";
 import type { AuthUser } from "../middleware/auth.js";
+import type { CreateListingInput } from "@donasaurs/domain";
 
-const createListingSchema = z.object({
+const createListingSchema: z.ZodType<CreateListingInput> = z.object({
   title: z.string().min(1).max(200),
   description: z.string().max(2000).optional(),
   price_min: z.number().positive(),
