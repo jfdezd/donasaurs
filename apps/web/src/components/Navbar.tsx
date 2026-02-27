@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { useLocale } from "@/lib/i18n/locale-context";
@@ -14,8 +15,18 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-xl font-extrabold text-emerald-700 tracking-tight">
-              {t.nav.brand}
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/logo.png"
+                alt="Donasaurio"
+                width={40}
+                height={40}
+                className="rounded-full"
+                priority
+              />
+              <span className="text-xl font-extrabold text-emerald-700 tracking-tight hidden sm:inline">
+                {t.nav.brand}
+              </span>
             </Link>
             <div className="hidden sm:flex gap-5">
               <Link
