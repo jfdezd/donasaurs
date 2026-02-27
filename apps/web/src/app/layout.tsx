@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "Donasaurio - La forma en que todos podemos ayudar",
   description:
     "Regala lo que ya no usas y convierte objetos en donaciones reales.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
